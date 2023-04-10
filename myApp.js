@@ -1,7 +1,18 @@
 require('dotenv').config()
+let bodyParser = require('body-parser')
 
 let express = require('express');
 let app = express();
+
+app.use("/public",express.static(__dirname+"/public"))
+
+app.use(bodyParser.urlencoded({extended:false}));
+
+app.post('/name',(req,res)=>{
+    var firstName = req.body.first;
+    var lastName = req.body.last;
+    res.json({"name":`${firstName} ${lastName}`}) 
+})
 
 app.get('/name',(req,res)=>{
     var firstName = req.query.first;
@@ -36,10 +47,6 @@ app.get("/json",(req,res)=>{
         res.json({"message":"Hello json"});
     }
 });
-
-app.use("/public",express.static(__dirname+"/public"))
-
-
 
 
 
